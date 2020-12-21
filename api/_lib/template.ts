@@ -93,18 +93,28 @@ function getCss(theme: string, fontSize: string) {
         margin: 0 .05em 0 .1em;
         vertical-align: -0.1em;
     }
-    
+
     .heading {
         font-family: 'Inter', sans-serif;
         font-size: ${sanitizeHtml(fontSize)};
         font-style: normal;
         color: ${foreground};
-        line-height: 1.8;
-    }`;
+        line-height: 1.5;
+    }
+
+    .url {
+
+        font-family: 'Inter', sans-serif;
+        font-size: 20px;
+        font-style: normal;
+    }
+    `;
 }
 
 export function getHtml(parsedReq: ParsedRequest) {
-    const { text, theme, md, fontSize, images, widths, heights } = parsedReq;
+    const { text, theme, md, fontSize, images, widths, heights, url } = parsedReq;
+    console.log(widths);
+
     return `<!DOCTYPE html>
 <html>
     <meta charset="utf-8">
@@ -126,12 +136,14 @@ export function getHtml(parsedReq: ParsedRequest) {
                 md ? marked(text) : sanitizeHtml(text)
             )}
             </div>
+            <div class="url">
+            ${url}</div>
         </div>
     </body>
 </html>`;
 }
 
-function getImage(src: string, width ='auto', height = '225') {
+function getImage(src: string, width ='auto', height = '50') {
     return `<img
         class="logo"
         alt="Generated Image"

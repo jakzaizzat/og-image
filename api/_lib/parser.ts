@@ -5,7 +5,8 @@ import { ParsedRequest, Theme } from "./types";
 export function parseRequest(req: IncomingMessage) {
   console.log("HTTP " + req.url);
   const { pathname, query } = parse(req.url || "/", true);
-  const { fontSize, images, widths, heights, theme, md } = query || {};
+
+  const { fontSize, images, widths, heights, theme, md, url } = query || {};
 
   if (Array.isArray(fontSize)) {
     throw new Error("Expected a single fontSize");
@@ -15,6 +16,7 @@ export function parseRequest(req: IncomingMessage) {
   }
 
   const arr = (pathname || "/").slice(1).split(".");
+
   let extension = "";
   let text = "";
   if (arr.length === 0) {
@@ -35,11 +37,16 @@ export function parseRequest(req: IncomingMessage) {
     images: getArray(images),
     widths: getArray(widths),
     heights: getArray(heights),
+    url: url || 'https://jakzaizzat.com/content/images/2020/12/logo.svg'
   };
+  console.log(parsedRequest)
+
   parsedRequest.images = getDefaultImages(
     parsedRequest.images,
     parsedRequest.theme
   );
+  console.log(parsedRequest);
+
   return parsedRequest;
 }
 
@@ -56,8 +63,8 @@ function getArray(stringOrArray: string[] | string | undefined): string[] {
 function getDefaultImages(images: string[], theme: Theme): string[] {
   const defaultImage =
     theme === "light"
-      ? "https://jakzaizzat.com/profile.png"
-      : "https://jakzaizzat.com/profile.png";
+      ? "https://jakzaizzat.com/content/images/2020/12/logo.svg"
+      : "https://jakzaizzat.com/content/images/2020/12/logo.svg";
 
   if (!images || !images[0]) {
     return [defaultImage];

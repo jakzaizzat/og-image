@@ -13,6 +13,8 @@ interface Options {
 
 export async function getOptions(isDev: boolean) {
     let options: Options;
+    console.log(exePath);
+
     if (isDev) {
         options = {
             args: [],

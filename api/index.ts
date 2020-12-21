@@ -5,11 +5,14 @@ import { getHtml } from './_lib/template';
 
 const isDev = process.env.VERCEL_REGION === 'dev1';
 const isHtmlDebug = process.env.OG_HTML_DEBUG === '1';
+// const isHtmlDebug = true;
 
 export default async function handler(req: IncomingMessage, res: ServerResponse) {
     try {
         const parsedReq = parseRequest(req);
+
         const html = getHtml(parsedReq);
+
         if (isHtmlDebug) {
             res.setHeader('Content-Type', 'text/html');
             res.end(html);
